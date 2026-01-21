@@ -198,15 +198,15 @@ total_cancel_mes = df_c_filtrado["ORDER_NUMBER"].nunique()
 
 col_m1, col_m2 = st.columns(2)
 
-col_m1.metric(
-    "📈 Total de Vendas no mês",
-    f"{total_vendas_mes:,}".replace(",", ".")
-)
+# Total de Vendas
+col_m1.markdown(f"""
+<h2 style="color: green; font-weight: bold;">📈 Total de Vendas no mês: {total_vendas_mes:,}</h2>
+""", unsafe_allow_html=True)
 
-col_m2.metric(
-    "📉 Total de Cancelamentos no mês",
-    f"{total_cancel_mes:,}".replace(",", ".")
-)
+# Total de Cancelamentos
+col_m2.markdown(f"""
+<h2 style="color: red; font-weight: bold;">📉 Total de Cancelamentos no mês: {total_cancel_mes:,}</h2>
+""", unsafe_allow_html=True)
 
 st.divider()
 
@@ -242,6 +242,7 @@ with col_c:
 # Rodapé
 st.markdown("---")  # linha separadora
 st.info("✉️ Qualquer dúvida ou sugestão mande email para metricas.clarotvmais@globalhitss.com.br")
+
 
 
 
