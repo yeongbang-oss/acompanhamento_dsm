@@ -4,7 +4,7 @@ from google.oauth2.service_account import Credentials
 import gspread
 import io
 
-senha = "metricas@2026"
+senha_correta = "metricas@2026"
 # =====================
 # GOOGLE SHEETS CONEXÃO
 # =====================
@@ -45,15 +45,14 @@ if "autenticado" not in st.session_state:
 if not st.session_state.autenticado:
     st.info(f"🔒 Para acessar o app, solicite a senha para o email: metricas.clarotvmais@globalhitss.com.br")
     
-    senha = st.text_input("Digite a senha para acessar o app", type="password")
+    senha_input = st.text_input("Digite a senha para acessar o app", type="password")
     if st.button("Entrar"):
-        if senha == senha:
+        if senha_input == SENHA_CORRETA:
             st.session_state.autenticado = True
             registrar_acesso()
         else:
             st.error("Senha incorreta!")
     st.stop()  # impede carregar o resto do app até autenticar
-
 # =====================
 # CONFIG
 # =====================
@@ -260,6 +259,7 @@ with col_c:
 # Rodapé
 st.markdown("---")  # linha separadora
 st.info("✉️ Qualquer dúvida ou sugestão mande email para metricas.clarotvmais@globalhitss.com.br")
+
 
 
 
