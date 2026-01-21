@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import pyodbc
+import mysql.connector
 
 # =====================
 # CONFIG
@@ -282,6 +282,7 @@ with col_c:
     st.subheader("📉 Cancelamentos")
     tab_c = build_tabela(df_cancel, ano, mes, planos, canal_venda, gateway_pagamento)
     st.dataframe(destacar_total(tab_c), use_container_width=True, hide_index=True)
+
 
 
 
