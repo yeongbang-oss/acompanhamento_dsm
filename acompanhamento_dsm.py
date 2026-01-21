@@ -67,7 +67,7 @@ def build_tabela(df, ano, mes, planos, canal_venda, gateway_pagamento):
     ]
 
     tabela = (
-        df.pivot_table(
+        df_filtrado.pivot_table(
             index="DIA",
             columns="PACOTE",
             values="ORDER_NUMBER",
@@ -79,7 +79,8 @@ def build_tabela(df, ano, mes, planos, canal_venda, gateway_pagamento):
     )
 
     tabela["Total"] = tabela.sum(axis=1)
-    return tabela.reset_index()
+
+    return tabela.reset_index(), df_filtrado
 
 # =====================
 # ESTILO
@@ -128,22 +129,42 @@ with col5:
         default=sorted(df_vendas["GATEWAY DE PAGAMENTO"].unique())
     )
 
+# -------- TOTAIS DO MÊS --------
+total_vendas_mes = df_v_filtrado["ORDER_NUMBER"].nunique()
+total_cancel_mes = df_c_filtrado["ORDER_NUMBER"].nunique()
 
+col_m1, col_m2 = st.columns(2)
+
+col_m1.metric(
+    "📈 Total de Vendas no mês",
+    f"{total_vendas_mes:,}".replace(",", ".")
+)
+
+col_m2.metric(
+    "📉 Total de Cancelamentos no mês",
+    f"{total_cancel_mes:,}".replace(",", ".")
+)
+
+st.divider()
 
 # -------- TABELAS --------
 col_v, col_c = st.columns(2)
 
 with col_v:
-    st.subheader("📈 Vendas")
-    tab_v = build_tabela(df_vendas, ano, mes, planos, canal_venda, gateway_pagamento)
-    st.dataframe(destacar_total(tab_v), use_container_width=True, hide_index=True)
+    st.subheader("📈 Vendas por dia")
+    st.dataframe(
+        destacar_total(tab_v),
+        use_container_width=True,
+        hide_index=True
+    )
 
 with col_c:
-    st.subheader("📉 Cancelamentos")
-    tab_c = build_tabela(df_cancel, ano, mes, planos, canal_venda, gateway_pagamento)
-    st.dataframe(destacar_total(tab_c), use_container_width=True, hide_index=True)
-
-
+    st.subheader("📉 Cancelamentos por dia")
+    st.dataframe(
+        destacar_total(tab_c),
+        use_container_width=True,
+        hide_index=True
+    )
 
 
 
