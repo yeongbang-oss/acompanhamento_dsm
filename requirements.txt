@@ -1,3 +1,4 @@
 streamlit
 pandas
-pyodbc
+mysql-connector-python
+python-dateutil
