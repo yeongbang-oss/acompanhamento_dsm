@@ -58,12 +58,12 @@ ORDEM_PACOTES = [
 ]
 
 def build_tabela(df, ano, mes, planos, canal_venda, gateway_pagamento):
-    df = df[
+    df_filtrado = df[
         (df["ANO"] == ano) &
         (df["MES"] == mes) &
         (df["PLANO"].isin(planos)) &
-	 (df["CANAL_VENDA"].isin(canal_venda)) &
-	 (df["GATEWAY DE PAGAMENTO"].isin(gateway_pagamento))
+        (df["CANAL_VENDA"].isin(canal_venda)) &
+        (df["GATEWAY DE PAGAMENTO"].isin(gateway_pagamento))
     ]
 
     tabela = (
@@ -96,8 +96,8 @@ def destacar_total(df):
 # =====================
 st.title("📊 Vendas x Cancelamentos por Dia")
 
-df_vendas = load_base('base_vendas')
-df_cancel = load_base('base_cancelamento')
+df_vendas = load_base("base_vendas")
+df_cancel = load_base("base_cancelamento")
 
 # -------- FILTROS --------
 col1, col2, col3, col4, col5 = st.columns(5)
@@ -106,7 +106,10 @@ with col1:
     ano = st.selectbox("Ano", sorted(df_vendas["ANO"].unique(), reverse=True))
 
 with col2:
-    mes = st.selectbox("Mês", sorted(df_vendas[df_vendas["ANO"] == ano]["MES"].unique()))
+    mes = st.selectbox(
+        "Mês",
+        sorted(df_vendas[df_vendas["ANO"] == ano]["MES"].unique())
+    )
 
 with col3:
     planos = st.multiselect(
@@ -128,6 +131,17 @@ with col5:
         sorted(df_vendas["GATEWAY DE PAGAMENTO"].unique()),
         default=sorted(df_vendas["GATEWAY DE PAGAMENTO"].unique())
     )
+
+# =====================
+# TABELAS + TOTAIS
+# =====================
+tab_v, df_v_filtrado = build_tabela(
+    df_vendas, ano, mes, planos, canal_venda, gateway_pagamento
+)
+
+tab_c, df_c_filtrado = build_tabela(
+    df_cancel, ano, mes, planos, canal_venda, gateway_pagamento
+)
 
 # -------- TOTAIS DO MÊS --------
 total_vendas_mes = df_v_filtrado["ORDER_NUMBER"].nunique()
@@ -165,6 +179,7 @@ with col_c:
         use_container_width=True,
         hide_index=True
     )
+
 
 
 
