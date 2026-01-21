@@ -14,15 +14,14 @@ st.set_page_config(
 # CONEXÃO
 # =====================
 
+@st.cache_resource
 def get_connection():
-    return pyodbc.connect(
-        f"DRIVER={{{st.secrets['DB_DRIVER']}}};"
-        f"SERVER={st.secrets['DB_HOST']};"
-        f"PORT={st.secrets['DB_PORT']};"
-        f"DATABASE={st.secrets['DB_NAME']};"
-        f"UID={st.secrets['DB_USER']};"
-        f"PWD={st.secrets['DB_PASSWORD']};"
-        "OPTION=3;"
+    return mysql.connector.connect(
+        host=st.secrets["mysql"]["host"],
+        port=st.secrets["mysql"]["port"],
+        database=st.secrets["mysql"]["database"],
+        user=st.secrets["mysql"]["user"],
+        password=st.secrets["mysql"]["password"]
     )
 
 # =====================
@@ -284,3 +283,4 @@ with col_c:
     st.subheader("📉 Cancelamentos")
     tab_c = build_tabela(df_cancel, ano, mes, planos, canal_venda, gateway_pagamento)
     st.dataframe(destacar_total(tab_c), use_container_width=True, hide_index=True)
+
