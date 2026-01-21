@@ -2,9 +2,13 @@ import streamlit as st
 import pandas as pd
 from google.oauth2.service_account import Credentials
 import gspread
+import io
 
 # ---------- SENHA ----------
 senha_correta = "metricas@2026"
+
+# Mensagem inicial pedindo a senha
+st.info("🔒 Para acessar o app, solicite a senha para o email: metricas.clarotvmais@globalhitss.com.br")
 
 # Verifica se o usuário já autenticou
 if "autenticado" not in st.session_state:
@@ -129,9 +133,25 @@ def destacar_total(df):
     return df.style.apply(highlight, axis=1)
 
 # =====================
+# BOTAO PARA BAIXAR EXCEL
+# =====================
+
+def to_excel(df):
+    output = io.BytesIO()
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+        df.to_excel(writer, index=False, sheet_name="Dados")
+        writer.save()
+    processed_data = output.getvalue()
+    return processed_data
+
+
+# =====================
 # APP
 # =====================
 st.title("📊 Vendas x Cancelamentos por Dia")
+# Rodapé
+st.markdown("---")  # linha separadora
+st.info("✉️ Qualquer dúvida ou sugestão mande email para metricas.clarotvmais@globalhitss.com.br")
 
 df_vendas = load_base("base_vendas")
 df_cancel = load_base("base_cancelamento")
@@ -203,19 +223,28 @@ col_v, col_c = st.columns(2)
 
 with col_v:
     st.subheader("📈 Vendas por dia")
-    st.dataframe(
-        destacar_total(tab_v),
-        use_container_width=True,
-        hide_index=True
+    st.dataframe(destacar_total(tab_v), use_container_width=True, hide_index=True)
+    
+    excel_vendas = to_excel(tab_v)
+    st.download_button(
+        label="⬇️ Baixar Vendas",
+        data=excel_vendas,
+        file_name=f"vendas_{ano}_{mes}.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
 with col_c:
     st.subheader("📉 Cancelamentos por dia")
-    st.dataframe(
-        destacar_total(tab_c),
-        use_container_width=True,
-        hide_index=True
+    st.dataframe(destacar_total(tab_c), use_container_width=True, hide_index=True)
+    
+    excel_cancel = to_excel(tab_c)
+    st.download_button(
+        label="⬇️ Baixar Cancelamentos",
+        data=excel_cancel,
+        file_name=f"cancelamentos_{ano}_{mes}.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
+
 
 
 
