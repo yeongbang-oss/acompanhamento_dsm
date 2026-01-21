@@ -39,7 +39,7 @@ def load_base(worksheet):
     sh = gc.open("Atualização_DSM")
 
     # 🔹 Aba
-    ws = sh.worksheet(worksheet")
+    ws = sh.worksheet(worksheet)
     df = pd.DataFrame(wd.get_all_records())
 
     # Padroniza nomes
@@ -142,6 +142,7 @@ with col_c:
     st.subheader("📉 Cancelamentos")
     tab_c = build_tabela(df_cancel, ano, mes, planos, canal_venda, gateway_pagamento)
     st.dataframe(destacar_total(tab_c), use_container_width=True, hide_index=True)
+
 
 
 
