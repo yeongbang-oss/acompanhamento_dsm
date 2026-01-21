@@ -3,6 +3,24 @@ import pandas as pd
 from google.oauth2.service_account import Credentials
 import gspread
 
+# ---------- SENHA ----------
+senha_correta = "metricas@2026"
+
+# Verifica se o usuário já autenticou
+if "autenticado" not in st.session_state:
+    st.session_state.autenticado = False
+
+if not st.session_state.autenticado:
+    senha = st.text_input("Digite a senha para acessar o app", type="password")
+    if st.button("Entrar"):
+        if senha == senha_correta:
+            st.session_state.autenticado = True
+            st.experimental_rerun()  # recarrega o app
+        else:
+            st.error("Senha incorreta!")
+    st.stop()  # não roda o resto do app enquanto não logar
+
+
 # =====================
 # CONFIG
 # =====================
@@ -198,6 +216,7 @@ with col_c:
         use_container_width=True,
         hide_index=True
     )
+
 
 
 
