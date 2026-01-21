@@ -65,7 +65,7 @@ if not st.session_state.autenticado:
         senha_input = st.text_input("Digite a senha para acessar o app", type="password")
         submitted = st.form_submit_button("Entrar")
         if submitted:
-            if senha_input == SENHA_CORRETA:
+            if senha_input == senha_correta:
                 st.session_state.autenticado = True
                 registrar_acesso()
             else:
@@ -278,6 +278,7 @@ with col_c:
 # Rodapé
 st.markdown("---")  # linha separadora
 st.info("✉️ Qualquer dúvida ou sugestão mande email para metricas.clarotvmais@globalhitss.com.br")
+
 
 
 
