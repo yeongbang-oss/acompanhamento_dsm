@@ -4,26 +4,22 @@ from google.oauth2.service_account import Credentials
 import gspread
 import io
 
-# ---------- SENHA ----------
-senha_correta = "metricas@2026"
+senha = "metricas@2026"
 
-# Mensagem inicial pedindo a senha
-st.info("🔒 Para acessar o app, solicite a senha para o email: metricas.clarotvmais@globalhitss.com.br")
-
-# Verifica se o usuário já autenticou
 if "autenticado" not in st.session_state:
     st.session_state.autenticado = False
 
-# Tela de login
+# Mensagem e input só aparecem se ainda não autenticado
 if not st.session_state.autenticado:
+    st.info(f"🔒 Para acessar o app, solicite a senha para o email: metricas.clarotvmais@globalhitss.com.br")
+    
     senha = st.text_input("Digite a senha para acessar o app", type="password")
     if st.button("Entrar"):
         if senha == senha_correta:
             st.session_state.autenticado = True
         else:
             st.error("Senha incorreta!")
-    # Para não continuar o app
-    st.stop()
+    st.stop()  # impede carregar o resto do app até autenticar
 
 # =====================
 # CONFIG
@@ -148,9 +144,6 @@ def to_excel(df):
 # APP
 # =====================
 st.title("📊 Vendas x Cancelamentos por Dia")
-# Rodapé
-st.markdown("---")  # linha separadora
-st.info("✉️ Qualquer dúvida ou sugestão mande email para metricas.clarotvmais@globalhitss.com.br")
 
 df_vendas = load_base("base_vendas")
 df_cancel = load_base("base_cancelamento")
@@ -246,6 +239,9 @@ with col_c:
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
+# Rodapé
+st.markdown("---")  # linha separadora
+st.info("✉️ Qualquer dúvida ou sugestão mande email para metricas.clarotvmais@globalhitss.com.br")
 
 
 
