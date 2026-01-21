@@ -43,7 +43,7 @@ def load_base(worksheet):
     df = pd.DataFrame(ws.get_all_records())
 
     # Padroniza nomes
-    df.columns = df_vendas.columns.str.upper()
+    df.columns = df.columns.str.upper()
 
     return df
 
@@ -142,6 +142,7 @@ with col_c:
     st.subheader("📉 Cancelamentos")
     tab_c = build_tabela(df_cancel, ano, mes, planos, canal_venda, gateway_pagamento)
     st.dataframe(destacar_total(tab_c), use_container_width=True, hide_index=True)
+
 
 
 
