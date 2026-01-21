@@ -96,7 +96,7 @@ def destacar_total(df):
         total_col_idx = row.index.get_loc("Total")
         
         # Linha "Total do mês" → cinza claro
-        if row["DIA"] == "Total do mês":
+        if row["DIA"] == "Total":
             styles = ["background-color: #d9d9d9; color: black"] * len(row)
         else:
             # Coluna "Total" → vermelho claro
@@ -194,6 +194,7 @@ with col_c:
         use_container_width=True,
         hide_index=True
     )
+
 
 
 
