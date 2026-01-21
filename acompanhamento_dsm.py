@@ -182,7 +182,7 @@ where data_cancelamento < '2025-05-01 00:00:00'"""
 # LOAD BASES
 # =====================
 @st.cache_data(ttl=3600)
-def load_data(query):
+def load_base(query):
     conn = get_connection()
     df = pd.read_sql(query, conn)
     return df
@@ -282,5 +282,6 @@ with col_c:
     st.subheader("📉 Cancelamentos")
     tab_c = build_tabela(df_cancel, ano, mes, planos, canal_venda, gateway_pagamento)
     st.dataframe(destacar_total(tab_c), use_container_width=True, hide_index=True)
+
 
 
