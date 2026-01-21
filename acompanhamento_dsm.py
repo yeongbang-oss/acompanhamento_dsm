@@ -25,15 +25,7 @@ def get_gsheet_client():
 # =====================
 # registrar log
 # =====================
-def registrar_acesso():
-    try:
-        gc = get_gsheet_client()
-        sh = gc.open("log_acesso")  # Nome da planilha que você criou para logs
-        ws = sh.sheet1
-        from datetime import datetime
-        ws.append_row([str(datetime.now())])
-    except Exception as e:
-        st.warning(f"Não foi possível registrar o acesso: {e}")
+
 
 # =====================
 # login
@@ -49,7 +41,7 @@ if not st.session_state.autenticado:
     if st.button("Entrar"):
         if senha == senha:
             st.session_state.autenticado = True
-            registrar_acesso()
+            #registrar_acesso()
         else:
             st.error("Senha incorreta!")
     st.stop()  # impede carregar o resto do app até autenticar
@@ -260,6 +252,7 @@ with col_c:
 # Rodapé
 st.markdown("---")  # linha separadora
 st.info("✉️ Qualquer dúvida ou sugestão mande email para metricas.clarotvmais@globalhitss.com.br")
+
 
 
 
