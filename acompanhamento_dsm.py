@@ -89,10 +89,22 @@ def build_tabela(df, ano, mes, planos, canal_venda, gateway_pagamento):
 # ESTILO
 # =====================
 def destacar_total(df):
-    return df.style.apply(
-        lambda _: ["background-color: #ffe6e6"] * len(df),
-        subset=["Total"]
-    )
+    def highlight(row):
+        styles = [""] * len(row)
+        
+        # Índice da coluna "Total"
+        total_col_idx = row.index.get_loc("Total")
+        
+        # Linha "Total do mês" → cinza claro
+        if row["DIA"] == "Total do mês":
+            styles = ["background-color: #d9d9d9; color: black"] * len(row)
+        else:
+            # Coluna "Total" → vermelho claro
+            styles[total_col_idx] = "background-color: #ffe6e6; color: black"
+        
+        return styles
+
+    return df.style.apply(highlight, axis=1)
 
 # =====================
 # APP
@@ -182,6 +194,7 @@ with col_c:
         use_container_width=True,
         hide_index=True
     )
+
 
 
 
