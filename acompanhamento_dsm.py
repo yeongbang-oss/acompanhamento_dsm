@@ -140,9 +140,8 @@ def to_excel(df):
     output = io.BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         df.to_excel(writer, index=False, sheet_name="Dados")
-        writer.save()
-    processed_data = output.getvalue()
-    return processed_data
+        # ❌ Não precisa de writer.save()
+    return output.getvalue()
 
 
 # =====================
@@ -218,13 +217,15 @@ col_m2.metric(
 
 st.divider()
 
-# -------- TABELAS --------
+# =====================
+# EXIBIÇÃO DAS TABELAS + DOWNLOAD
+# =====================
 col_v, col_c = st.columns(2)
 
 with col_v:
     st.subheader("📈 Vendas por dia")
     st.dataframe(destacar_total(tab_v), use_container_width=True, hide_index=True)
-    
+
     excel_vendas = to_excel(tab_v)
     st.download_button(
         label="⬇️ Baixar Vendas",
@@ -236,7 +237,7 @@ with col_v:
 with col_c:
     st.subheader("📉 Cancelamentos por dia")
     st.dataframe(destacar_total(tab_c), use_container_width=True, hide_index=True)
-    
+
     excel_cancel = to_excel(tab_c)
     st.download_button(
         label="⬇️ Baixar Cancelamentos",
