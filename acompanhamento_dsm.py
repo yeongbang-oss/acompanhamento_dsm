@@ -38,6 +38,7 @@ def registrar_acesso():
 # =====================
 # login
 # =====================
+"""
 if "autenticado" not in st.session_state:
     st.session_state.autenticado = False
 
@@ -52,6 +53,24 @@ if not st.session_state.autenticado:
             registrar_acesso()
         else:
             st.error("Senha incorreta!")
+    st.stop()  # impede carregar o resto do app até autenticar
+    """
+if "autenticado" not in st.session_state:
+    st.session_state.autenticado = False
+
+if not st.session_state.autenticado:
+    st.info("🔒 Para acessar o app, solicite a senha para o email: metricas.clarotvmais@globalhitss.com.br")
+    
+    with st.form("login_form"):
+        senha_input = st.text_input("Digite a senha para acessar o app", type="password")
+        submitted = st.form_submit_button("Entrar")
+        if submitted:
+            if senha_input == SENHA_CORRETA:
+                st.session_state.autenticado = True
+                registrar_acesso()
+            else:
+                st.error("Senha incorreta!")
+
     st.stop()  # impede carregar o resto do app até autenticar
 # =====================
 # CONFIG
@@ -259,6 +278,7 @@ with col_c:
 # Rodapé
 st.markdown("---")  # linha separadora
 st.info("✉️ Qualquer dúvida ou sugestão mande email para metricas.clarotvmais@globalhitss.com.br")
+
 
 
 
