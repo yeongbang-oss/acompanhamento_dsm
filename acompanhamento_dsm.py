@@ -80,10 +80,14 @@ def build_tabela(df, ano, mes, planos, canal_venda, gateway_pagamento):
 
     tabela["Total"] = tabela.sum(axis=1)
     # Total do mês (nova linha)
-    total_mes = tabela.sum().to_frame().T  # transforma Series em linha
-    total_mes.index = ["Total"]       # nome da linha
+    total_mes = tabela.sum().to_frame().T
+    total_mes.index = ["Total"]
     tabela = pd.concat([tabela, total_mes])
-    return tabela.reset_index(), df_filtrado
+
+    # Garante que a coluna "DIA" existe
+    tabela = tabela.reset_index().rename(columns={"index": "DIA"})
+
+    return tabela, df_filtrado
 
 # =====================
 # ESTILO
@@ -194,6 +198,7 @@ with col_c:
         use_container_width=True,
         hide_index=True
     )
+
 
 
 
