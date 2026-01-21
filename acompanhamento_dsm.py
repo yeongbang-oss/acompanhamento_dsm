@@ -208,7 +208,7 @@ col_m1.metric(
 col_m2.metric(
     "📉 Total de Cancelamentos no mês",
     f"{total_cancel_mes:,}".replace(",", ".")
-
+)
 
 st.divider()
 
@@ -244,6 +244,7 @@ with col_c:
 # Rodapé
 st.markdown("---")  # linha separadora
 st.info("✉️ Qualquer dúvida ou sugestão mande email para metricas.clarotvmais@globalhitss.com.br")
+
 
 
 
