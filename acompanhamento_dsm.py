@@ -79,7 +79,10 @@ def build_tabela(df, ano, mes, planos, canal_venda, gateway_pagamento):
     )
 
     tabela["Total"] = tabela.sum(axis=1)
-
+    # Total do mês (nova linha)
+    total_mes = tabela.sum().to_frame().T  # transforma Series em linha
+    total_mes.index = ["Total"]       # nome da linha
+    tabela = pd.concat([tabela, total_mes])
     return tabela.reset_index(), df_filtrado
 
 # =====================
@@ -179,6 +182,7 @@ with col_c:
         use_container_width=True,
         hide_index=True
     )
+
 
 
 
